@@ -1,0 +1,25 @@
+{
+  "name": "mydemo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "~4.2.0",
+    "static-favicon": "~1.0.0",
+    "morgan": "~1.0.0",
+    "cookie-parser": "~1.0.1",
+    "mysql":"*",
+    "moment":"*",
+    "forever":"*",
+    "body-parser": "~1.0.0",
+    "debug": "~0.7.4",
+    "jade": "~1.3.0",
+    "socket.io":"^1.0.6",
+    "underscore":"~1.6.0",
+    "ejs": "~2.3.3",
+    "express-session":"*",
+    "serve-favicon": "~2.3.0"
+  }
+}

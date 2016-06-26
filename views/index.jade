@@ -1,0 +1,158 @@
+extends layout
+
+block content
+    link(rel='stylesheet', href='/stylesheets/sco.message.css')
+    link(rel='stylesheet', href='/stylesheets/message.css')
+    link(rel='stylesheet', href='/css/messenger.css')
+    link(rel='stylesheet', href='/css/messenger-theme-flat.css')
+    .container
+        .row
+            .col-sm-3 
+                .panel.panel-success(style="margin-right:-10px;")
+                    .panel-heading
+                        span.glyphicon.glyphicon-user &nbsp;
+                        span Friends Online
+                    .panel-body1
+                        .msg-list-body.user-contentOn
+                            ul
+                                li(style="display:none;")
+                                    a(href="#")
+                                        img.img-thumbnail(src="/images/1.jpg")
+                                        span           
+                    .panel-footer
+
+                    .panel-heading
+                        span.glyphicon.glyphicon-user &nbsp;
+                        span Friends Offline
+                    .panel-body2
+                        .msg-list-body.user-contentOff
+                            ul
+                                li(style="display:none;")
+                                    a(href="#")
+                                        img.img-thumbnail(src="/images/1.jpg")
+                                        span
+                    .panel-footer
+                        .btn-group
+                            button.btn.btn-warning#icon-search(type="button")
+                                span.glyphicon.glyphicon-search 
+                            button.btn.btn-warning#icon-delete(type="button")
+                                span.glyphicon.glyphicon-minus 
+                            button.btn.btn-warning#icon-accept(type="button")
+                                span.glyphicon.glyphicon-envelope
+                            button.btn.btn-warning#icon-group(type="button")
+                                span.glyphicon.glyphicon-user
+            .col-sm-9
+                .panel.panel-success
+                    .panel-heading
+                        span.glyphicon.glyphicon-comment &nbsp;
+                        span#chatTitle MyChat APP
+                        span#spanuser(style="float:right;")
+                    .panel-body
+                        .msg-list-body
+                            .msg-content#msgcontent(style="text-align:center")
+
+                    .panel-footer
+                        .input-group
+                            input.form-control#msg(type="text",placeholder="Type in...",onkeydown="javascript:keywordsMsg(event);")
+                            span.input-group-btn
+                                button.btn.btn-warning#sendMsg(type="button") Send
+                        
+    .modal.fade#myModal(tabindex="-1")
+        .modal-dialog
+            .modal-content
+                
+                .modal-header
+                    h2.modal-title(style="text-align:center") Hello, MyChat
+                    h4.modal-title#myModalLabel Login
+                    h5.modal-title#status2 Type in your personal info
+                .modal-body
+                    .form-group
+                        .input-group
+                            .input-group-addon username
+                            input.form-control#username2(type="text",placeHolder="username",onkeydown="javascript:keywordsName1(event);")
+                        .input-group
+                            .input-group-addon password
+                            input.form-control#password2(type="password",placeHolder="password",onkeydown="javascript:keywordsName2(event);")
+                                
+                .modal-footer
+                    input.btn.btn-primary#btn-login(type="button",value="Login",onkeydown="javascript:keywordsName2(event);")
+
+                .modal-header
+                    h4.modal-title#myModalLabel Sign Up
+                    h5.modal-title#status Type in your personal info
+                .modal-body
+                    .form-group
+                        .input-group
+                            .input-group-addon username
+                            input.form-control#username(type="text",placeHolder="username",onkeydown="javascript:keywordsName(event);")
+                        .input-group
+                            .input-group-addon password
+                            input.form-control#password(type="password",placeHolder="password",onkeydown="javascript:keywordsName(event);")
+                        .input-group
+                            .input-group-addon email
+                            input.form-control#email(type="text",placeHolder="email",onkeydown="javascript:keywordsName(event);")
+                        .input-group
+                            .input-group-addon gender
+                            &nbsp; 
+                            input#gender(type="radio",name="gender",value="M")
+                            &nbsp; 
+                            span GG 
+                            &nbsp;             
+                            input#gender(type="radio",name="gender",value="F")
+                            &nbsp; 
+                            span MM
+          
+                .modal-footer
+                    input.btn.btn-danger#btn-register(type="button",value="Sign Up")
+
+
+    .modal.fade#searchUser(tabindex="-1")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title#searchUserLabel
+                .modal-body
+                    input.form-control#input_searchUser(type="text",onkeydown="javascript:keywordsName1(event);")
+                    h5.modal-title#namelist
+                    input.form-control#addReason(type="text") 
+                    h5.modal-title#addSendlabel
+                .modal-footer
+                    input.btn.btn-warning#btn-search(type="button",value="Search")
+
+    .modal.fade#deleteUser(tabindex="-1")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title#deleteUserLabel
+                .modal-body
+                    h5.modal-title#delnamelist
+                .modal-footer
+
+    .modal.fade#acceptUser(tabindex="-1")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title#acceptUserLabel
+                .modal-body
+                    h5.modal-title#accnamelist
+                .modal-footer
+    
+     .modal.fade#groupUser(tabindex="-1")
+        .modal-dialog
+            .modal-content
+                .modal-header
+                    h4.modal-title#groupUserLabel
+                .modal-body
+                    h5.modal-title#groupnamelist
+
+                    h5.modal-title#toModify
+                    input.form-control#groupName(type="text") 
+                    h5.modal-title#groupSendlabel
+                .modal-footer
+
+    script(src="/socket.io/socket.io.js")
+    script(src='/javascripts/chatjs.js')
+    script(src='/javascripts/client.js')
+    script(src='/javascripts/sco.message.js')
+    script(src="/js/messenger.min.js")
+    script(src="/js/messenger-theme-flat.js")

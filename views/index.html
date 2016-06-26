@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <link rel="stylesheet" href="/stylesheets/sco.message.css">
+    <link rel="stylesheet" href="/stylesheets/message.css">
+    <link rel="stylesheet" href="/css/messenger.css">
+    <link rel="stylesheet" href="/css/messenger-theme-flat.css">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3"> 
+          <div style="margin-right:-10px;" class="panel panel-success">
+            <div class="panel-heading"><span class="glyphicon glyphicon-user">&nbsp;</span><span>Friends Online</span></div>
+            <div class="panel-body1">
+              <div class="msg-list-body user-contentOn">
+                <ul>
+                  <li style="display:none;"><a href="#"><img src="/images/1.jpg" class="img-thumbnail"><span>          </span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-footer"></div>
+            <div class="panel-heading"><span class="glyphicon glyphicon-user">&nbsp;</span><span>Friends Offline</span></div>
+            <div class="panel-body2">
+              <div class="msg-list-body user-contentOff">
+                <ul>
+                  <li style="display:none;"><a href="#"><img src="/images/1.jpg" class="img-thumbnail"><span></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="btn-group">
+                <button id="icon-search" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-search"> </span></button>
+                <button id="icon-delete" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-minus"> </span></button>
+                <button id="icon-accept" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-envelope"></span></button>
+                <button id="icon-group" type="button" class="btn btn-warning"><span class="glyphicon glyphicon-user"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-9">
+          <div class="panel panel-success">
+            <div class="panel-heading"><span class="glyphicon glyphicon-comment">&nbsp;</span><span id="chatTitle">MyChat APP</span><span id="spanuser" style="float:right;"></span></div>
+            <div class="panel-body">
+              <div class="msg-list-body">
+                <div id="msgcontent" style="text-align:center" class="msg-content"></div>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="input-group">
+                <input id="msg" type="text" placeholder="Type in..." onkeydown="javascript:keywordsMsg(event);" class="form-control"><span class="input-group-btn">
+                  <button id="sendMsg" type="button" class="btn btn-warning">Send</button></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="myModal" tabindex="-1" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 style="text-align:center" class="modal-title">Hello, MyChat</h2>
+            <h4 id="myModalLabel" class="modal-title">Login</h4>
+            <h5 id="status2" class="modal-title">Type in your personal info</h5>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">username</div>
+                <input id="username2" type="text" placeHolder="username" onkeydown="javascript:keywordsName1(event);" class="form-control">
+              </div>
+              <div class="input-group">
+                <div class="input-group-addon">password</div>
+                <input id="password2" type="password" placeHolder="password" onkeydown="javascript:keywordsName2(event);" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input id="btn-login" type="button" value="Login" onkeydown="javascript:keywordsName2(event);" class="btn btn-primary">
+          </div>
+          <div class="modal-header">
+            <h4 id="myModalLabel" class="modal-title">Sign Up</h4>
+            <h5 id="status" class="modal-title">Type in your personal info</h5>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon">username</div>
+                <input id="username" type="text" placeHolder="username" onkeydown="javascript:keywordsName(event);" class="form-control">
+              </div>
+              <div class="input-group">
+                <div class="input-group-addon">password</div>
+                <input id="password" type="password" placeHolder="password" onkeydown="javascript:keywordsName(event);" class="form-control">
+              </div>
+              <div class="input-group">
+                <div class="input-group-addon">email</div>
+                <input id="email" type="text" placeHolder="email" onkeydown="javascript:keywordsName(event);" class="form-control">
+              </div>
+              <div class="input-group">
+                <div class="input-group-addon">gender</div>&nbsp; 
+                <input id="gender" type="radio" name="gender" value="M">&nbsp; <span>GG </span>&nbsp;             
+                <input id="gender" type="radio" name="gender" value="F">&nbsp; <span>MM</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input id="btn-register" type="button" value="Sign Up" class="btn btn-danger">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="searchUser" tabindex="-1" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="searchUserLabel" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <input id="input_searchUser" type="text" onkeydown="javascript:keywordsName1(event);" class="form-control">
+            <h5 id="namelist" class="modal-title"></h5>
+            <input id="addReason" type="text" class="form-control">
+            <h5 id="addSendlabel" class="modal-title"></h5>
+          </div>
+          <div class="modal-footer">
+            <input id="btn-search" type="button" value="Search" class="btn btn-warning">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="deleteUser" tabindex="-1" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="deleteUserLabel" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <h5 id="delnamelist" class="modal-title"></h5>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <div id="acceptUser" tabindex="-1" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="acceptUserLabel" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <h5 id="accnamelist" class="modal-title"></h5>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <div id="groupUser" tabindex="-1" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="groupUserLabel" class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <h5 id="groupnamelist" class="modal-title"></h5>
+            <h5 id="toModify" class="modal-title"></h5>
+            <input id="groupName" type="text" class="form-control">
+            <h5 id="groupSendlabel" class="modal-title"></h5>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/javascripts/chatjs.js"></script>
+    <script src="/javascripts/client.js"></script>
+    <script src="/javascripts/sco.message.js"></script>
+    <script src="/js/messenger.min.js"></script>
+    <script src="/js/messenger-theme-flat.js"></script>
+  </body>
+</html>
