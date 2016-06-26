@@ -14,10 +14,8 @@ var userList = [];
 
 io.on('connection',function(socket){
 
-	//注册用户
 	socket.on('register',function(user){
 		console.log('register is called');
-        //将此用户写入数据库
         var insertSQL = 'insert into user values(';
             insertSQL+= '\'' + user.name + '\',';
             insertSQL+= '\'' + user.password + '\',';
@@ -33,16 +31,13 @@ io.on('connection',function(socket){
 		console.log('user.id: '+user.id);
 		userList.push(user);
 
-		//用户信息发给系统
 		socket.emit('userInfo',user);
-		//告诉全世界
 		socket.broadcast.emit('loginInfo',user.name+"上线了。");
            
 	}
 		});
 	});
 
-	//用户登录
 	socket.on('login',function(user){
 		console.log('login is called');
         var selectSQL = "select * from user where "
@@ -57,15 +52,12 @@ io.on('connection',function(socket){
 		        user.id = socket.id;
 		        console.log('user.id: '+user.id);
 		        userList.push(user);
-		        //用户信息发给系统
 	        	socket.emit('userInfo',user);
-	          	//告诉全世界
 	           	socket.broadcast.emit('loginInfo',user.name+"上线了。");     
 	        }
 	        console.log(userList);        
         });
 
-        //将好友列表列出来
         console.log('myfindFriend is called ');
 		var selectSQL1 = "select * from relation where "
                   + " user= '" + user.name + "';"
@@ -75,7 +67,6 @@ io.on('connection',function(socket){
             	var onlineList=[];
                 var offlineList=[];
                 for (var i=0;i<res1.length;i++){
-                    //看这好友是否在线，findwhere函数很有用
                     var findUser = _.findWhere(userList,{name:res1[i].friend});
                     console.log(findUser);
                     console.log(res1[i]);
@@ -88,14 +79,12 @@ io.on('connection',function(socket){
                         state:res1[i].state};
                     	offlineList.push(offuser);}
                 }
-            //按属性排序
             onlineList=onlineList.sort(function(x, y){
                 return x.state > y.state ? 1:-1;
             });
             offlineList=offlineList.sort(function(x, y){
                 return x.state > y.state ? 1:-1;
             });
-            //在线与离线好友分别发送
             socket.emit('onlineList',onlineList); 
             socket.emit('offlineList',offlineList);
             
@@ -103,7 +92,6 @@ io.on('connection',function(socket){
         }); 
 	});
     
-    //其他好友的更新列表
     socket.on('findFriend',function(userSelf){
     	console.log('findFriend is called ');	
 		var selectSQL1 = "select * from relation where "
@@ -139,7 +127,6 @@ io.on('connection',function(socket){
         });
     });
     
-	//登出
 	socket.on('disconnect',function(){
 		var user = _.findWhere(userList,{id:socket.id});
 		if(user){
@@ -148,7 +135,6 @@ io.on('connection',function(socket){
 		}
 	});
 
-    //搜索用户
     socket.on('searchUser',function(toUser,fromUser){
         console.log('searchUser');
             console.log(toUser);
@@ -162,7 +148,6 @@ io.on('connection',function(socket){
         });
     });
 
-    //列出申请添加好友列表
     socket.on('listRequest',function(userName){
         var selectSQL = "select * from friendRequest where toname='" + userName + "';";
         sqlconn.query(selectSQL,function(err,res){ 
@@ -175,7 +160,6 @@ io.on('connection',function(socket){
         });
     });
   
-    //列出好友列表用于删除
     socket.on('listFriend',function(userName){
         var selectSQL = "select * from relation where user='" + userName + "';";
         sqlconn.query(selectSQL,function(err,res){ 
@@ -188,7 +172,6 @@ io.on('connection',function(socket){
         });
     });
     
-    //列出好友列表用于分组
     socket.on('listGroup',function(userName){
         var selectSQL = "select * from relation where user='" + userName + "';";
         sqlconn.query(selectSQL,function(err,res){ 
@@ -201,16 +184,8 @@ io.on('connection',function(socket){
         });
     });
     
-    //发送好友申请
     socket.on('addFriendRequest',function(addmsg){
         console.log('addFriendRequest is called');
-        /*
-            format:{
-                from:fromName,
-                to:toName,
-                reason:reason
-            }
-        */
         var insertSQL = 'insert into friendRequest values(';
             insertSQL+= '\'' + addmsg.from + '\',';
             insertSQL+= '\'' + addmsg.to + '\',';
@@ -225,15 +200,8 @@ io.on('connection',function(socket){
             });
     });
     
-    //接受好友申请
     socket.on('accFriendRequest',function(accmsg){
         console.log('accFriendRequest is called');
-        /*
-            format:{
-                from:fromName,
-                to:toName
-            }
-        */
         var insertSQL = 'insert into relation values(';
             insertSQL+= '\'' + accmsg.from + '\',';
             insertSQL+= '\'' + accmsg.to + '\',';
@@ -276,22 +244,13 @@ io.on('connection',function(socket){
                 else{
                 console.log("DELETE Return ==> ");
                 console.log(res3);
-                //socket.emit('acceptSuccess');
-                //socket.broadcast.emit('refreshFriend');
             }
             });
     });
     
-    //拒绝好友申请
     socket.on('rejFriendRequest',function(rejmsg){
         console.log('rejFriendRequest is called');
-        /*
-            format:{
-                from:fromName,
-                to:toName
-            }
-        */
-       var deleteSQL = "delete from friendRequest where "
+        var deleteSQL = "delete from friendRequest where "
                   + " fromname=  '" + rejmsg.from + "' "
                   + " and toname=  '" + rejmsg.to + "';";
             sqlconn.query(deleteSQL, function (err, res) {
@@ -305,16 +264,9 @@ io.on('connection',function(socket){
     });
 
 
-    //删除好友
     socket.on('delFriendRequest',function(delmsg){
         console.log('delFriendRequest is called');
-        /*
-            format:{
-                from:fromName,
-                to:toName
-            }
-        */
-       var deleteSQL1 = "delete from message where "
+        var deleteSQL1 = "delete from message where "
                   + " (fromuser=  '" + delmsg.from + "' "
                   + " and touser=  '" + delmsg.to + "')or"
                   + " (fromuser=  '" + delmsg.to + "' "
@@ -345,14 +297,8 @@ io.on('connection',function(socket){
             });
     });
 
-    //修改好友分组
     socket.on('groupModifyRequest',function(groupmsg){
         console.log('groupModifyRequest is called');
-       /* var groupmsg={
-        from:fromName,
-        to:toName,
-        group:groupName
-    };*/
         var updateSQL ='update relation set state=';
         updateSQL +='\'' + groupmsg.group + '\'';
         updateSQL +='where user="'+groupmsg.from+'"and ';
@@ -368,18 +314,8 @@ io.on('connection',function(socket){
             });
     });
 
-    //聊天内容放进mysql
     socket.on('putIntoSql',function(msgObj){
-		/*
-			format:{
-				from:from.name,
-                to:toOneName,
-                msg:msg,
-                time:myDate
-			}
-		*/
 		console.log('putIntoSql is called');
-        //将信息写入数据库
         var insertSQL = 'insert into message values(';
             insertSQL+= '\'' + msgObj.from + '\',';
             insertSQL+= '\'' + msgObj.to + '\',';
@@ -394,17 +330,8 @@ io.on('connection',function(socket){
             });
 	});
  
-    //选择聊天内容
     socket.on('selectChat',function(msgObj){
     	console.log('selectChat is called');
-        /*
-			format:{
-			from:userSelf.name,
-  		    to:toOneName,
-  		    toId:toOneId,
-  		    msg:msg
-			}
-	  	*/
 	    var selectSQL = "select * from message where "
                   + " (fromuser=  '" + msgObj.from + "' "
                   + " and touser=  '" + msgObj.to + "') or"
@@ -418,7 +345,6 @@ io.on('connection',function(socket){
         	        if(res[i].fromuser==msgObj.from){
         	        	var resultname=res[i].fromuser;
         	        	var resultcontent=res[i].content;
-                        //规范格式
                         var resulttime=moment(res[i].dayandtime).format('YYYY-MM-DD HH:mm:ss');
                         console.log(resulttime);
         	        	var result={
@@ -432,7 +358,6 @@ io.on('connection',function(socket){
                     else{
                         var resultname=res[i].name;
         	        	var resultcontent=res[i].content;
-                        //规范格式
                         var resulttime=moment(res[i].dayandtime).format('YYYY-MM-DD HH:mm:ss');
                         console.log(resulttime);
         	        	var result={
@@ -451,35 +376,14 @@ io.on('connection',function(socket){
     });
 
 
-	//发送消息提示框
 	socket.on('toOne',function(msgObj){
-		/*
-			format:{
-				from:{
-					name:"",
-					img:"",
-					id:""
-				},
-				to:"",  //socketid
-				msg:""
-			}
-		*/
-		//var toSocket = _.findWhere(socketList,{id:msgObj.to});
+
 		var toSocket = _.findWhere(io.sockets.sockets,{id:msgObj.to});
 		console.log(toSocket);
 		toSocket.emit('toOne', msgObj);
 	});
 });
-//var jj=[{4:1,2:1,3:1},2,3,4,5];
-//qqq=_.findWhere(jj,1);
-//qqq.state='state';
-//console.log(qqq);
 
-//var test=[{name:'bidan',age:18},{name:'aidan',age:17},{name:'1',age:16}];
-//test=test.sort(function(x, y){
-//    return x.name > y.name ? 1:-1;
-//});
-//console.log(test);
 
 exports.listen = function(_server){
 	io.listen(_server);
